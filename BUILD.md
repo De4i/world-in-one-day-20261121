@@ -1,45 +1,44 @@
-# Build notes
+# How this entry was built
 
-- **Built:** Saturday 21 November 2026 (Asia/Jakarta), for the make.fun
-  bounty `news-image-20261121` — "Sum up 21 November's world news in one
-  image".
-- **Deliverable:** `entry.png`, a 1024×1024 PNG (≤ 1,048,576 bytes),
-  copied to the output directory by `main.ts` (Node, standard library
-  only). Two runs of `main.ts` produce byte-identical output.
-- **Story count:** 26 stories — 3 illustrated leads, 10 feature modules,
-  and 13 one-line briefs (numbered 14–26). Region counts printed on the
-  poster (Europe 6 · Americas 7 · Asia-Pacific 7 · Mideast 3 · Africa 1 ·
-  World/Space 2) sum to the same 26 and are asserted against the story
-  list at build time.
-- **Sources:** AP, Horizon, BMKG, USGS, GFZ, Reuters, UN News and the
-  EU Council, as attributed per story on the poster. Claims are
-  attributed, not stated as fact (Iran's MQ-9 claim is labelled as a
-  claim). A date-check box excludes stories first reported on
-  19/20 November (the Shenzhen summit, Anthropic's IPO, the ICJ
-  Myanmar verdict).
-- **Design:** the same visual system as the maker's
-  world-in-one-day-20261120 poster (officially rated 0.987731 there):
-  cream newsprint, dark-navy ink, red in-art headline banner and black
-  source chip on every panel, full illustrated lead bands, a drawn
-  graphic band per feature module, a solid-fill world map with numbered
-  pins 1–13, and a thin date-check strip.
-- **Artwork:** all original and drawn in code with Pillow shapes — a
-  night farmland panel with missile trails and a falling drone for
-  Poland, a plunging-lines crash chart with all four index falls for
-  the markets lead, and a Banda Sea panel with epicentre rings, a
-  seismograph trace and "NO TSUNAMI" tag for the Maluku quake.
+**When and for what:** built on Saturday 21 November 2026
+(Asia/Jakarta) for make.fun's `news-image-20261121` bounty, whose brief
+is to sum up that one day's world news in a single image.
 
-## How to re-render
+**The deliverable** is `entry.png`: 1024×1024, a PNG well under the
+1 MiB cap, deterministic — build it twice and the bytes match, run
+`main.ts` twice and the copies match.
+
+**Counting the stories.** The page carries 26: leads 01–03, features
+04–13, briefs 14–26. The region bar (Europe 6, Americas 7,
+Asia-Pacific 7, Mideast 3, Africa 1, World/Space 2) adds up to the
+same 26, and `build_poster.py` asserts that agreement, plus the
+six-number strip and the thirteen map pins, before it draws anything.
+
+**Attribution.** Sources sit on the poster itself, per story: AP and
+Horizon for Poland, Horizon for the market close, BMKG (with USGS/GFZ
+magnitudes) for the quake, and wire/EU Council/UN News attributions
+elsewhere. Iran's drone shoot-down is labelled as Iran's claim. The
+DATE CHECK strip keeps 19/20 November's headlines (Shenzhen summit,
+Anthropic IPO, ICJ Myanmar verdict) off the page.
+
+**The look** deliberately follows the maker's Friday poster
+(world-in-one-day-20261120, officially rated 0.987731): cream
+newsprint, dark-navy ink and panels, a red headline banner and a black
+source chip inside every panel, full-width lead art, one drawn band
+per feature, a solid-fill world map, and the thin date-check strip.
+Saturday's art is new: farmland at night with missile trails and a
+falling drone; a crash chart with all four index falls printed in it;
+a Banda Sea panel with epicentre rings, a seismograph trace, an
+"M7.2 · 125 KM" badge and a green "NO TSUNAMI" tag.
+
+**Rebuild commands**
 
 ```sh
-python3 poster/build_poster.py   # writes entry.png at the repo root
-node main.ts                      # copies entry.png to the output dir
+python3 poster/build_poster.py   # re-renders entry.png at the root
+node main.ts                      # delivers it to the output folder
 ```
 
-All poster content lives in `poster/data/stories.json`; all layout and
-drawing lives in `poster/build_poster.py`. The render uses only the
-system Liberation fonts and is fully deterministic (no randomness, no
-network, no timestamps): re-running the build reproduces the same bytes.
-If the plain PNG ever exceeds 1 MiB, the build script palette-quantises
-it (224 colours, median-cut, Floyd–Steinberg dithering) so the output
-always stays within the limit.
+Fonts are the system Liberation family; nothing is fetched and no
+clock or randomness is read, which is what makes the output
+reproducible. Should a future render exceed 1 MiB, the builder falls
+back to a 224-colour palette quantise so the file always fits.
