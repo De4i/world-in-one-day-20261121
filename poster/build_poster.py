@@ -164,118 +164,6 @@ def num_chip(draw, cx: float, cy: float, r: int, n: str, fnt) -> None:
 # Lead illustrations — full bands, hand-drawn with Pillow shapes
 # --------------------------------------------------------------------------
 
-def art_poland(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
-    """Night over SE Poland: missile trails and a drone fall on farmland."""
-    x0, y0, x1, y1 = box
-    wdt, hgt = x1 - x0, y1 - y0
-    draw.rectangle(box, fill=(13, 20, 42))
-    for i in range(48):
-        sx = x0 + (i * 53 + 11) % max(1, wdt - 8) + 4
-        sy = y0 + (i * 29 + 7) % max(1, int(hgt * 0.5)) + 3
-        draw.point((sx, sy), fill=(220, 228, 245))
-    # farmland horizon: dark fields with furrow lines, a village silhouette
-    base = y1 - 22
-    draw.rectangle([x0, base, x1, y1], fill=(30, 52, 34))
-    for fx in range(x0 + 10, x1 - 6, 26):
-        draw.line([(fx, y1 - 3), (fx + 12, base + 3)], fill=(52, 84, 52), width=1)
-    for hx, hw, hh in ((x0 + 18, 30, 13), (x0 + 56, 22, 10), (x1 - 62, 34, 14)):
-        draw.rectangle([hx, base - hh, hx + hw, base], fill=(5, 8, 16))
-        draw.polygon([(hx - 2, base - hh), (hx + hw + 2, base - hh),
-                      (hx + hw // 2, base - hh - 7)], fill=(90, 30, 30))
-        draw.rectangle([hx + 5, base - hh + 4, hx + 8, base - hh + 7], fill=(250, 210, 110))
-    # two missile trails dropping in from the east (right), glow heads
-    for fx0, fx1 in ((0.88, 0.66), (0.97, 0.80)):
-        sx, sy = x0 + fx0 * wdt, y0 + 4
-        ex, ey = x0 + fx1 * wdt, y0 + 0.58 * hgt
-        draw.line([(sx, sy), (ex, ey)], fill=(255, 122, 60), width=3)
-        draw.line([(sx, sy), (ex, ey)], fill=(255, 205, 120), width=1)
-        draw.ellipse([ex - 4, ey - 4, ex + 4, ey + 4], fill=(255, 170, 60))
-        draw.ellipse([ex - 11, ey + 3, ex + 11, ey + 11], fill=(255, 120, 40))
-        draw.ellipse([ex - 5, ey + 4, ex + 5, ey + 10], fill=(255, 190, 90))
-    # the drone: an X quadcopter silhouette falling left of the trails
-    dx_, dy_ = x0 + 74, y0 + 30
-    draw.line([(dx_ - 13, dy_ - 9), (dx_ + 13, dy_ + 9)], fill=WHITE, width=3)
-    draw.line([(dx_ - 13, dy_ + 9), (dx_ + 13, dy_ - 9)], fill=WHITE, width=3)
-    for px, py in ((dx_ - 13, dy_ - 9), (dx_ + 13, dy_ + 9), (dx_ - 13, dy_ + 9), (dx_ + 13, dy_ - 9)):
-        draw.ellipse([px - 4, py - 4, px + 4, py + 4], outline=(255, 150, 150), width=2)
-    draw.ellipse([dx_ - 5, dy_ - 5, dx_ + 5, dy_ + 5], fill=RED)
-    draw.line([(dx_ + 8, dy_ + 12), (dx_ + 20, dy_ + 30)], fill=(255, 120, 120), width=2)
-    tag(draw, x0 + 8, y0 + 52, "SE POLAND", font(SANS_BOLD, 11), PANEL, (226, 234, 244))
-    draw.rectangle([x0, y1 - 19, x1, y1], fill=RED)
-    centred_text(draw, (x0 + x1) / 2, y1 - 16,
-                 "MISSILES + DRONE DOWN", font(SANS_BOLD, 12), WHITE)
-    draw.rectangle(box, outline=RULE)
-
-
-def art_markets(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
-    """Crash chart: plunging index lines on a dark grid, falls tagged."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=PANEL)
-    for gx in range(x0 + 12, x1, 24):
-        draw.line([(gx, y0 + 3), (gx, y1 - 22)], fill=PANEL_LINE, width=1)
-    for gy in range(y0 + 6, y1 - 20, 14):
-        draw.line([(x0 + 3, gy), (x1 - 3, gy)], fill=PANEL_LINE, width=1)
-    # three index lines, all diving to the right in different reds/ambers
-    series_a = [(x0 + 120, y0 + 10), (x0 + 168, y0 + 16), (x0 + 205, y0 + 15),
-                (x0 + 232, y0 + 34), (x1 - 12, y1 - 30)]
-    series_b = [(x0 + 120, y0 + 22), (x0 + 170, y0 + 26), (x0 + 210, y0 + 30),
-                (x1 - 30, y1 - 34)]
-    series_c = [(x0 + 120, y0 + 34), (x0 + 175, y0 + 38), (x0 + 215, y0 + 44),
-                (x1 - 48, y1 - 36)]
-    lines = [(series_a, RED, 3), (series_b, (240, 150, 60), 2),
-             (series_c, (140, 190, 240), 2)]
-    for pts, colour, width in lines:
-        draw.line(pts, fill=colour, width=width, joint="curve")
-        for px, py in pts[:-1]:
-            draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=WHITE)
-    ex, ey = x1 - 12, y1 - 30
-    draw.polygon([(ex, ey), (ex - 12, ey - 2), (ex - 6, ey - 12)], fill=RED)
-    # the day's falls, stacked as in-art data labels on the left
-    draw.text((x0 + 8, y0 + 21), "NASDAQ -5.3%", font=font(SANS_BOLD, 11), fill=WHITE)
-    draw.text((x0 + 8, y0 + 35), "S&P 500 -3.7%", font=font(SANS_BOLD, 11), fill=(255, 150, 150))
-    draw.text((x0 + 8, y0 + 49), "NIKKEI -5.1%", font=font(SANS_BOLD, 11), fill=(240, 190, 120))
-    draw.text((x0 + 8, y0 + 63), "HANG SENG -1.9%", font=font(SANS_BOLD, 11), fill=(170, 210, 245))
-    draw.rectangle([x0, y1 - 19, x1, y1], fill=RED)
-    centred_text(draw, (x0 + x1) / 2, y1 - 16,
-                 "TECH CRASH DEEPENS", font(SANS_BOLD, 12), WHITE)
-    draw.rectangle(box, outline=RULE)
-
-
-def art_quake(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
-    """Banda Sea panel: island coast, quake rings, seismograph, M7.2 badge."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=(13, 28, 52))
-    # island landmasses: Maluku Barat Daya arcs top-right, coast strokes
-    draw.polygon([(x1 - 120, y0), (x1 - 60, y0 + 10), (x1 - 30, y0 + 26),
-                  (x1 - 52, y0 + 34), (x1 - 96, y0 + 22), (x1 - 122, y0 + 10)],
-                 fill=(104, 116, 138), outline=(196, 210, 228))
-    draw.polygon([(x0 + 8, y1 - 34), (x0 + 52, y1 - 40), (x0 + 78, y1 - 26),
-                  (x0 + 44, y1 - 18), (x0 + 10, y1 - 22)],
-                 fill=(104, 116, 138), outline=(196, 210, 228))
-    draw.text((x1 - 112, y0 + 8), "MALUKU", font=font(SANS_BOLD, 9), fill=(226, 234, 244))
-    # concentric quake rings around the epicentre, mid-sea
-    cx, cy = x0 + 128, y0 + 42
-    for radius, colour, width in ((34, (255, 90, 90), 3), (25, (255, 140, 90), 3),
-                                  (16, (255, 190, 110), 2), (8, WHITE, 2)):
-        draw.ellipse([cx - radius, cy - radius * 0.72, cx + radius, cy + radius * 0.72],
-                     outline=colour, width=width)
-    draw.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=RED, outline=WHITE)
-    tag(draw, x0 + 8, y0 + 8, "BANDA SEA", font(SANS_BOLD, 11), (13, 28, 52), (226, 234, 244))
-    # seismograph trace along the lower sea, spiking hard at the main shock
-    trace = [(x0 + 10, y1 - 30), (x0 + 52, y1 - 30), (x0 + 62, y1 - 38),
-             (x0 + 72, y1 - 22), (x0 + 82, y1 - 42), (x0 + 92, y1 - 18),
-             (x0 + 102, y1 - 36), (x0 + 112, y1 - 28), (x1 - 90, y1 - 30),
-             (x1 - 60, y1 - 30)]
-    draw.line(trace, fill=(120, 230, 200), width=2, joint="curve")
-    # M7.2 badge and the no-tsunami tag on the right
-    badge = (x1 - 86, y0 + 40, x1 - 10, y0 + 64)
-    draw.rectangle(badge, fill=RED)
-    centred_text(draw, (badge[0] + badge[2]) / 2, y0 + 45, "M7.2 · 125 KM",
-                 font(SANS_BOLD, 11), WHITE)
-    tag(draw, x1 - 86, y0 + 68, "NO TSUNAMI", font(SANS_BOLD, 9), (10, 60, 50), (160, 255, 210))
-    draw.rectangle(box, outline=RULE)
-
-
 def art_cop31(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
     """COP31 overtime: globe, thermometer and clock on a pale panel."""
     x0, y0, x1, y1 = box
@@ -377,8 +265,7 @@ def art_peru_lead(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> 
     draw.rectangle(box, outline=RULE)
 
 
-LEAD_ART = {"poland": art_poland, "markets": art_markets, "quake": art_quake,
-            "cop31": art_cop31, "kyiv": art_kyiv, "peru": art_peru_lead}
+LEAD_ART = {"cop31": art_cop31, "kyiv": art_kyiv, "peru": art_peru_lead}
 
 LEAD_BANNERS = {"01": "COP31: OVERTIME", "02": "KYIV: STRUCK", "03": "PERU: M6.9"}
 FEAT_BANNERS = {"04": "POLAND", "05": "MARKETS CRASH", "06": "MALUKU QUAKE",
@@ -389,6 +276,60 @@ FEAT_BANNERS = {"04": "POLAND", "05": "MARKETS CRASH", "06": "MALUKU QUAKE",
 # --------------------------------------------------------------------------
 # Feature graphics — one drawn band per story, specific to its subject
 # --------------------------------------------------------------------------
+
+def feat_poland(draw, box) -> None:
+    """04 — mini Poland: farmland horizon, one trail, the falling drone."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=(13, 20, 42))
+    draw.rectangle([x0, y1 - 12, x1, y1], fill=(30, 52, 34))
+    for hx, hw, hh in ((x0 + 14, 24, 10), (x1 - 52, 28, 11)):
+        draw.rectangle([hx, y1 - 12 - hh, hx + hw, y1 - 12], fill=(5, 8, 16))
+        draw.polygon([(hx - 2, y1 - 12 - hh), (hx + hw + 2, y1 - 12 - hh),
+                      (hx + hw // 2, y1 - 19 - hh)], fill=(90, 30, 30))
+    sx, sy = x1 - 16, y0 + 4
+    ex, ey = x1 - 62, y0 + 26
+    draw.line([(sx, sy), (ex, ey)], fill=(255, 122, 60), width=3)
+    draw.ellipse([ex - 5, ey - 2, ex + 5, ey + 7], fill=(255, 140, 50))
+    dx_, dy_ = x0 + 52, y0 + 18
+    draw.line([(dx_ - 10, dy_ - 7), (dx_ + 10, dy_ + 7)], fill=WHITE, width=2)
+    draw.line([(dx_ - 10, dy_ + 7), (dx_ + 10, dy_ - 7)], fill=WHITE, width=2)
+    draw.ellipse([dx_ - 4, dy_ - 4, dx_ + 4, dy_ + 4], fill=RED)
+    draw.rectangle(box, outline=RULE)
+
+
+def feat_markets(draw, box) -> None:
+    """05 — mini crash chart: grid and one plunging red line."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=PANEL)
+    for gx in range(x0 + 14, x1, 22):
+        draw.line([(gx, y0 + 3), (gx, y1 - 3)], fill=PANEL_LINE, width=1)
+    for gy in range(y0 + 8, y1 - 4, 12):
+        draw.line([(x0 + 3, gy), (x1 - 3, gy)], fill=PANEL_LINE, width=1)
+    pts = [(x0 + 10, y0 + 10), (x0 + 52, y0 + 14), (x0 + 88, y0 + 12),
+           (x0 + 118, y0 + 28), (x1 - 34, y1 - 10)]
+    draw.line(pts, fill=RED, width=3, joint="curve")
+    for px, py in pts[:-1]:
+        draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=WHITE)
+    draw.text((x1 - 62, y0 + 6), "-5.3%", font=font(SANS_BOLD, 12), fill=(255, 150, 150))
+    draw.rectangle(box, outline=RULE)
+
+
+def feat_quake(draw, box) -> None:
+    """06 — mini Maluku: epicentre rings and the M7.2 tag."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=(13, 28, 52))
+    cx, cy = x0 + 62, y0 + 27
+    for radius, colour, width in ((24, (255, 90, 90), 3), (17, (255, 140, 90), 2),
+                                  (10, (255, 190, 110), 2)):
+        draw.ellipse([cx - radius, cy - radius * 0.72, cx + radius, cy + radius * 0.72],
+                     outline=colour, width=width)
+    draw.ellipse([cx - 3, cy - 3, cx + 3, cy + 3], fill=RED, outline=WHITE)
+    draw.polygon([(x1 - 70, y0 + 4), (x1 - 30, y0 + 10), (x1 - 12, y0 + 22),
+                  (x1 - 34, y0 + 26), (x1 - 64, y0 + 16)],
+                 fill=(104, 116, 138), outline=(196, 210, 228))
+    tag(draw, x0 + 6, y1 - 18, "M7.2", font(SANS_BOLD, 9), RED, WHITE)
+    draw.rectangle(box, outline=RULE)
+
 
 def feat_flags(draw, box) -> None:
     """06 — EU circle of stars beside a Union Jack, on a dark panel."""
@@ -419,50 +360,6 @@ def feat_flags(draw, box) -> None:
     draw.rectangle(eu, outline=(200, 212, 230))
     draw.rectangle(uk, outline=(200, 212, 230))
     tag(draw, x0 + 57, y1 - 17, "RESET TALKS", font(SANS_BOLD, 8), RED, WHITE)
-    draw.rectangle(box, outline=RULE)
-
-
-def feat_cop(draw, box) -> None:
-    """04 — thermometer, clashing arrows and an OVERTIME clock badge."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=PANEL)
-    tx = x0 + 30
-    draw.rectangle([tx - 5, y0 + 8, tx + 5, y0 + 34], fill=WHITE)
-    draw.rectangle([tx - 2, y0 + 12, tx + 2, y0 + 40], fill=RED)
-    draw.ellipse([tx - 8, y0 + 32, tx + 8, y1 - 6], fill=RED, outline=WHITE, width=2)
-    draw.polygon([(x0 + 52, y0 + 16), (x0 + 76, y0 + 16), (x0 + 76, y0 + 11),
-                  (x0 + 88, y0 + 20), (x0 + 76, y0 + 29), (x0 + 76, y0 + 24),
-                  (x0 + 52, y0 + 24)], fill=RED)
-    draw.polygon([(x0 + 128, y0 + 16), (x0 + 104, y0 + 16), (x0 + 104, y0 + 11),
-                  (x0 + 92, y0 + 20), (x0 + 104, y0 + 29), (x0 + 104, y0 + 24),
-                  (x0 + 128, y0 + 24)], fill=(226, 234, 244))
-    ccx, ccy = x1 - 34, y0 + 24
-    draw.ellipse([ccx - 15, ccy - 15, ccx + 15, ccy + 15], outline=WHITE, width=2)
-    draw.line([(ccx, ccy), (ccx, ccy - 10)], fill=(240, 170, 60), width=2)
-    draw.line([(ccx, ccy), (ccx + 8, ccy + 4)], fill=(240, 170, 60), width=2)
-    tag(draw, x0 + 52, y1 - 18, "OVERTIME", font(SANS_BOLD, 9), RED, WHITE)
-    draw.rectangle(box, outline=RULE)
-
-
-def feat_peru(draw, box) -> None:
-    """05 — Andean peaks split by a crack, quake rings at the base."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=PANEL)
-    draw.polygon([(x0 + 8, y1 - 10), (x0 + 52, y0 + 8), (x0 + 84, y1 - 10)],
-                 fill=(120, 132, 152))
-    draw.polygon([(x0 + 44, y0 + 17), (x0 + 52, y0 + 8), (x0 + 61, y0 + 17),
-                  (x0 + 52, y0 + 22)], fill=WHITE)
-    draw.polygon([(x0 + 70, y1 - 10), (x0 + 118, y0 + 14), (x1 - 8, y1 - 10)],
-                 fill=(96, 110, 132))
-    draw.polygon([(x0 + 110, y0 + 22), (x0 + 118, y0 + 14), (x0 + 127, y0 + 22),
-                  (x0 + 118, y0 + 26)], fill=WHITE)
-    draw.line([(x0 + 96, y0 + 20), (x0 + 92, y0 + 30), (x0 + 100, y0 + 38),
-               (x0 + 94, y1 - 12)], fill=(240, 200, 90), width=2)
-    for radius in (7, 13, 19):
-        draw.ellipse([x0 + 150 - radius, y1 - 16 - radius * 0.6,
-                      x0 + 150 + radius, y1 - 16 + radius * 0.6],
-                     outline=(255, 120, 120), width=2)
-    tag(draw, x0 + 8, y1 - 18, "M6.9", font(SANS_BOLD, 10), RED, WHITE)
     draw.rectangle(box, outline=RULE)
 
 
@@ -539,17 +436,6 @@ def feat_bayer(draw, box) -> None:
     draw.rectangle(box, outline=RULE)
 
 
-def feat_quote(draw, box) -> None:
-    """11 — big quote marks over blue-yellow bands (Ukraine colours)."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=PANEL)
-    draw.rectangle([x0 + 8, y0 + 8, x0 + 62, y0 + 24], fill=(40, 90, 180))
-    draw.rectangle([x0 + 8, y0 + 24, x0 + 62, y0 + 40], fill=(245, 200, 60))
-    draw.text((x0 + 76, y0 + 2), "“A KILLER”", font=fit_font(draw, "“A KILLER”", SANS_BOLD, 17, x1 - x0 - 84, minimum=11), fill=WHITE)
-    draw.text((x0 + 78, y0 + 26), "— Zelenskyy, on Putin", font=font(SANS, 10), fill=(200, 212, 230))
-    draw.rectangle(box, outline=RULE)
-
-
 def feat_datacentre(draw, box) -> None:
     """12 — a data-centre hall with server rows and a TAX stamp."""
     x0, y0, x1, y1 = box
@@ -587,63 +473,8 @@ def feat_explosion(draw, box) -> None:
     draw.rectangle(box, outline=RULE)
 
 
-def feat_poland(draw, box) -> None:
-    """04 — mini Poland: farmland horizon, one trail, the falling drone."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=(13, 20, 42))
-    draw.rectangle([x0, y1 - 12, x1, y1], fill=(30, 52, 34))
-    for hx, hw, hh in ((x0 + 14, 24, 10), (x1 - 52, 28, 11)):
-        draw.rectangle([hx, y1 - 12 - hh, hx + hw, y1 - 12], fill=(5, 8, 16))
-        draw.polygon([(hx - 2, y1 - 12 - hh), (hx + hw + 2, y1 - 12 - hh),
-                      (hx + hw // 2, y1 - 19 - hh)], fill=(90, 30, 30))
-    sx, sy = x1 - 16, y0 + 4
-    ex, ey = x1 - 62, y0 + 26
-    draw.line([(sx, sy), (ex, ey)], fill=(255, 122, 60), width=3)
-    draw.ellipse([ex - 5, ey - 2, ex + 5, ey + 7], fill=(255, 140, 50))
-    dx_, dy_ = x0 + 52, y0 + 18
-    draw.line([(dx_ - 10, dy_ - 7), (dx_ + 10, dy_ + 7)], fill=WHITE, width=2)
-    draw.line([(dx_ - 10, dy_ + 7), (dx_ + 10, dy_ - 7)], fill=WHITE, width=2)
-    draw.ellipse([dx_ - 4, dy_ - 4, dx_ + 4, dy_ + 4], fill=RED)
-    draw.rectangle(box, outline=RULE)
-
-
-def feat_markets(draw, box) -> None:
-    """05 — mini crash chart: grid and one plunging red line."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=PANEL)
-    for gx in range(x0 + 14, x1, 22):
-        draw.line([(gx, y0 + 3), (gx, y1 - 3)], fill=PANEL_LINE, width=1)
-    for gy in range(y0 + 8, y1 - 4, 12):
-        draw.line([(x0 + 3, gy), (x1 - 3, gy)], fill=PANEL_LINE, width=1)
-    pts = [(x0 + 10, y0 + 10), (x0 + 52, y0 + 14), (x0 + 88, y0 + 12),
-           (x0 + 118, y0 + 28), (x1 - 34, y1 - 10)]
-    draw.line(pts, fill=RED, width=3, joint="curve")
-    for px, py in pts[:-1]:
-        draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=WHITE)
-    draw.text((x1 - 62, y0 + 6), "-5.3%", font=font(SANS_BOLD, 12), fill=(255, 150, 150))
-    draw.rectangle(box, outline=RULE)
-
-
-def feat_quake(draw, box) -> None:
-    """06 — mini Maluku: epicentre rings and the M7.2 tag."""
-    x0, y0, x1, y1 = box
-    draw.rectangle(box, fill=(13, 28, 52))
-    cx, cy = x0 + 62, y0 + 27
-    for radius, colour, width in ((24, (255, 90, 90), 3), (17, (255, 140, 90), 2),
-                                  (10, (255, 190, 110), 2)):
-        draw.ellipse([cx - radius, cy - radius * 0.72, cx + radius, cy + radius * 0.72],
-                     outline=colour, width=width)
-    draw.ellipse([cx - 3, cy - 3, cx + 3, cy + 3], fill=RED, outline=WHITE)
-    draw.polygon([(x1 - 70, y0 + 4), (x1 - 30, y0 + 10), (x1 - 12, y0 + 22),
-                  (x1 - 34, y0 + 26), (x1 - 64, y0 + 16)],
-                 fill=(104, 116, 138), outline=(196, 210, 228))
-    tag(draw, x0 + 6, y1 - 18, "M7.2", font(SANS_BOLD, 9), RED, WHITE)
-    draw.rectangle(box, outline=RULE)
-
-
-FEAT_ART = {"cop": feat_cop, "peru": feat_peru, "fire": feat_fire,
-            "hack": feat_hack, "flags": feat_flags, "drone": feat_drone,
-            "bayer": feat_bayer, "quote": feat_quote,
+FEAT_ART = {"fire": feat_fire, "hack": feat_hack, "flags": feat_flags,
+            "drone": feat_drone, "bayer": feat_bayer,
             "datacentre": feat_datacentre, "explosion": feat_explosion,
             "poland": feat_poland, "markets": feat_markets, "quake": feat_quake}
 
