@@ -569,57 +569,56 @@ def draw_map(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int],
 # Page sections
 # --------------------------------------------------------------------------
 
+def _centred(draw, y, text, fnt, fill):
+    """Draw one line centred on the page measure at height y."""
+    draw.text(((SIZE - text_w(draw, text, fnt)) / 2, y), text, font=fnt, fill=fill)
+
+
+def _hex(colour: str):
+    return tuple(int(colour[j:j + 2], 16) for j in (1, 3, 5))
+
+
 def section_top(draw, data: dict) -> int:
     """Brand strip, masthead, strapline, numbers strip, region bar."""
-    ed = data["edition"]
-    y = 6
+    ed, y = data["edition"], 6
     draw.text((MARGIN, y), ed["brand"], font=font(SANS_BOLD, 15), fill=INK)
     right_f = font(SANS_BOLD, 11)
-    rw = text_w(draw, ed["top_right"], right_f)
-    draw.text((X1 - rw, y + 2), ed["top_right"], font=right_f, fill=RED)
+    draw.text((X1 - text_w(draw, ed["top_right"], right_f), y + 2),
+              ed["top_right"], font=right_f, fill=RED)
     y += 19
     draw.line([(MARGIN, y), (X1, y)], fill=INK, width=2)
     y += 3
-    # Masthead — the biggest element on the page, sized to the full measure.
-    mast = fit_font(draw, ed["masthead"], SERIF_BOLD, 74, INNER)
-    mw = text_w(draw, ed["masthead"], mast)
-    draw.text(((SIZE - mw) / 2, y), ed["masthead"], font=mast, fill=INK)
-    y += 84  # clearance: no strapline letterform touches a masthead descender
-    strap = fit_font(draw, ed["strapline"], SERIF_ITALIC, 17, INNER)
-    sw = text_w(draw, ed["strapline"], strap)
-    draw.text(((SIZE - sw) / 2, y), ed["strapline"], font=strap, fill=RED)
+    # Masthead: the biggest element on the page, fitted to the measure.
+    _centred(draw, y, ed["masthead"], fit_font(draw, ed["masthead"], SERIF_BOLD, 74, INNER), INK)
+    y += 84  # clear of the masthead descenders before the strapline
+    _centred(draw, y, ed["strapline"], fit_font(draw, ed["strapline"], SERIF_ITALIC, 17, INNER), RED)
     y += 20
     draw.line([(MARGIN, y), (X1, y)], fill=RULE, width=1)
     y += 4
-    # Numbers strip: six big-number cells divided by hairlines.
-    cell_w = INNER / 6
-    big_f = font(SANS_BOLD, 24)
-    cap_f = font(SANS, 11)
+    # Numbers strip: six big-number cells divided by hairlines; the two
+    # market-shock cells (indexes 1 and 2) print in red.
+    cell_w, big_f, cap_f = INNER / 6, font(SANS_BOLD, 24), font(SANS, 11)
     for i, cell in enumerate(data["numbers"]):
         cx = MARGIN + i * cell_w
         if i:
             draw.line([(cx - 5, y + 2), (cx - 5, y + 40)], fill=RULE, width=1)
-        colour = RED if i in (1, 2) else INK
-        draw.text((cx, y), cell["big"], font=big_f, fill=colour)
-        lines = wrap(draw, cell["caption"], cap_f, cell_w - 12)
-        draw_lines(draw, lines[:2], cx, y + 25, cap_f, INK_SOFT, 11)
+        draw.text((cx, y), cell["big"], font=big_f, fill=RED if i in (1, 2) else INK)
+        draw_lines(draw, wrap(draw, cell["caption"], cap_f, cell_w - 12)[:2],
+                   cx, y + 25, cap_f, INK_SOFT, 11)
     y += 48
-    # Region bar: one segment per region, count inside each.  Label ink is
-    # centred inside its segment and coloured for contrast against the
-    # segment fill — white on dark fills, ink only on light ones.
+    # Region bar: one segment per region with its story count inside;
+    # label ink flips to white on the darker fills for contrast.
     seg_w = INNER / len(data["regions"])
     for i, region in enumerate(data["regions"]):
-        sx = MARGIN + i * seg_w
-        colour = tuple(int(region["color"][j:j + 2], 16) for j in (1, 3, 5))
+        sx, colour = MARGIN + i * seg_w, _hex(region["color"])
         draw.rectangle([sx, y, sx + seg_w - 2, y + 18], fill=colour)
         label = f'{region["name"]} {region["count"]}'
         lf = fit_font(draw, label, SANS_BOLD, 11, seg_w - 12, minimum=8)
         lum = 0.299 * colour[0] + 0.587 * colour[1] + 0.114 * colour[2]
-        fill = WHITE if lum < 150 else INK
         bbox = draw.textbbox((0, 0), label, font=lf)
-        tx = sx + (seg_w - 2 - (bbox[2] - bbox[0])) / 2 - bbox[0]
-        ty = y + (18 - (bbox[3] - bbox[1])) / 2 - bbox[1]
-        draw.text((tx, ty), label, font=lf, fill=fill)
+        draw.text((sx + (seg_w - 2 - (bbox[2] - bbox[0])) / 2 - bbox[0],
+                   y + (18 - (bbox[3] - bbox[1])) / 2 - bbox[1]),
+                  label, font=lf, fill=WHITE if lum < 150 else INK)
     y += 21
     draw.line([(MARGIN, y), (X1, y)], fill=INK, width=1)
     return y + 5
@@ -719,41 +718,35 @@ def section_bottom(draw, data: dict, y: int) -> int:
     draw.text((bx, y + 15), "13 more stories, in brief",
               font=font(SANS_ITALIC, 11), fill=INK_SOFT)
     col_w = (bw - 12) / 2
-    num_f = font(SANS_BOLD, 12)
-    place_f = font(SANS_BOLD, 12)
+    num_f = place_f = font(SANS_BOLD, 12)
     per_col = math.ceil(len(data["briefs"]) / 2)
     for idx, brief in enumerate(data["briefs"]):
         col, row = divmod(idx, per_col)
-        x = bx + col * (col_w + 12)
-        yy = y + 33 + row * 13.4
-        draw.text((x, yy), f'{brief["n"]}', font=num_f, fill=RED)
-        nx = x + text_w(draw, f'{brief["n"]}', num_f) + 4
-        draw.text((nx, yy), brief["place"], font=place_f, fill=INK)
-        px = nx + text_w(draw, brief["place"], place_f) + 4
-        # One line only: shrink just this line if it would spill over.
-        bf = fit_font(draw, brief["text"], SANS, 12, x + col_w - px, minimum=9)
-        draw.text((px, yy), brief["text"], font=bf, fill=INK_SOFT)
+        x, yy = bx + col * (col_w + 12), y + 33 + row * 13.4
+        # One running line per brief: red number, bold place, then the
+        # text shrunk just enough to never spill past its column.
+        cursor = x
+        for text, fnt, fill in ((f'{brief["n"]}', num_f, RED),
+                                (brief["place"], place_f, INK)):
+            draw.text((cursor, yy), text, font=fnt, fill=fill)
+            cursor += text_w(draw, text, fnt) + 4
+        bf = fit_font(draw, brief["text"], SANS, 12, x + col_w - cursor, minimum=9)
+        draw.text((cursor, yy), brief["text"], font=bf, fill=INK_SOFT)
     return y + 205
 
 
 def section_close(draw, data: dict, y: int) -> int:
     """Thin date-check strip (rank-1 weight) and the attribution footer."""
-    dc = data["date_check"]
+    dc, ed = data["date_check"], data["edition"]
     draw.rectangle([MARGIN, y, X1, y + 26], outline=RED, width=1)
-    draw.text((MARGIN + 8, y + 8), "DATE CHECK", font=font(SANS_BOLD, 9),
-              fill=RED)
+    draw.text((MARGIN + 8, y + 8), dc["title"], font=font(SANS_BOLD, 9), fill=RED)
     body_f = font(SANS, 9)
-    lines = wrap(draw, dc["body"], body_f, INNER - 92)
-    draw_lines(draw, lines[:2], MARGIN + 84, y + 3, body_f, INK_SOFT, 11)
+    draw_lines(draw, wrap(draw, dc["body"], body_f, INNER - 92)[:2],
+               MARGIN + 84, y + 3, body_f, INK_SOFT, 11)
     y += 31
-    ed = data["edition"]
-    claim_f = fit_font(draw, ed["footer_claim"], SANS_BOLD, 12, INNER)
-    cw = text_w(draw, ed["footer_claim"], claim_f)
-    draw.text(((SIZE - cw) / 2, y), ed["footer_claim"], font=claim_f, fill=INK)
+    _centred(draw, y, ed["footer_claim"], fit_font(draw, ed["footer_claim"], SANS_BOLD, 12, INNER), INK)
     y += 14
-    src_f = fit_font(draw, ed["footer_sources"], SANS, 11, INNER)
-    sw = text_w(draw, ed["footer_sources"], src_f)
-    draw.text(((SIZE - sw) / 2, y), ed["footer_sources"], font=src_f, fill=INK_SOFT)
+    _centred(draw, y, ed["footer_sources"], fit_font(draw, ed["footer_sources"], SANS, 11, INNER), INK_SOFT)
     return y + 5
 
 
