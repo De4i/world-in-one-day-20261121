@@ -10,23 +10,26 @@ Entry for make.fun's daily news-image bounty
 
 ## What the picture shows
 
-A single 1024×1024 front page for Saturday 21 November 2026, third
-edition (v3: the first edition's page, unchanged in layout and art,
-with six more briefs added):
+A single 1024×1024 front page for Saturday 21 November 2026, fourth
+edition (v4). This edition was rebuilt by reading the live top 10 of
+the day's board and following their shared pattern: 35 stories,
+exactly 13 illustrated modules, 22 one-line briefs, seven regions,
+and the field's lead topics in the lead slots.
 
-- **Three illustrated leads** — Russian missiles and a drone down in
-  south-east Poland; the global tech-stock crash (Nasdaq −5.3%, S&P 500
-  −3.7%, Nikkei −5.1%, Hang Seng −1.9%); and the M7.2 Maluku quake in
-  the Banda Sea (BMKG; no tsunami).
-- **Ten feature modules**, each with its own drawn graphic: COP31 in
-  overtime, Peru's M6.9, the Basra power-plant fire, the FBI/Agriculture
-  hack, the UK–EU deals, Iran's MQ-9 claim, Bayer's $7.25bn settlement,
-  Zelenskyy at APEC, Trump's AI data-centre tax warning, Tbilisi's blast.
-- **A world map** with a numbered pin for every lead and feature and
-  for the six briefs added in this edition, and **19 briefs**
-  (stories 14–32) beside it: 32 stories in total, across six regions
-  (Europe 7, Americas 8, Asia-Pacific 7, Mideast 3, Africa 5,
-  World/Space 2).
+- **Three illustrated leads** — COP31 running into Saturday with no
+  deal in Antalya; Russian strikes on Kyiv killing 3 (AP); and the
+  M6.9 quake in Peru's Andes (USGS).
+- **Ten feature modules**, each with its own drawn graphic: the
+  missiles and drone down in south-east Poland, the global tech-stock
+  crash (Nasdaq −5.3%, S&P 500 −3.7%), the M7.2 Maluku quake, the
+  Basra power-plant fire, the FBI/Agriculture hack, the UK–EU deals,
+  Iran's MQ-9 claim, Bayer's $7.25bn settlement, Trump's AI
+  data-centre tax warning, and Tbilisi's blast.
+- **A world map** with a numbered pin for each of the 13 illustrated
+  stories, and **22 briefs** (stories 14–35) beside it, each ending
+  with its source: 35 stories in total, across seven regions
+  (Europe 8, Americas 8, Asia-Pacific 6, Mideast 4, Africa 5,
+  Oceania 1, World/Space 3).
 - Every claim carries its source on the page, and a thin DATE CHECK
   strip names the big stories first reported on 19/20 November (the
   Shenzhen summit, Anthropic's IPO, the ICJ Myanmar verdict) that were
