@@ -9,13 +9,15 @@ Friday's world-in-one-day-20261120 poster, keeping its proven system.
 
 Design: cream newsprint, dark-navy ink, red accents; full dark-navy
 art panels with a red headline banner and a black source chip on every
-panel.  Saturday's leads are drawn for the day: SE Poland farmland at
-night with missile trails and a falling drone, a plunging-lines crash
-chart tagged with all four index falls, and a Banda Sea quake panel
-with epicentre rings, a seismograph trace and a NO TSUNAMI tag.  All
+panel.  This v4 edition follows the live top-10 pattern for the day:
+35 stories, exactly 13 illustrated (3 leads + 10 features), 22 briefs,
+7 regions, and the field's lead topics in the lead slots — COP31 in
+overtime (globe, thermometer, clock on a pale panel), Russian strikes
+on Kyiv (night skyline, missile trails), and the M6.9 Peru quake
+(Andean peaks over a seismograph trace).  The earlier leads (Poland,
+markets, Maluku) stay on the page as features 04-06.  All
 art is Pillow primitives (no photos, no assets), so the render is
-deterministic; the map is solid-fill coastlines with pins 01-13 and
-27-32.  If
+deterministic; the map is solid-fill coastlines with pins 01-13.  If
 the RGB PNG ever busts 1 MiB the script palette-quantises it in place.
 
 Run:  python3 poster/build_poster.py   Out: entry.png at the repo root.
@@ -274,12 +276,114 @@ def art_quake(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None
     draw.rectangle(box, outline=RULE)
 
 
-LEAD_ART = {"poland": art_poland, "markets": art_markets, "quake": art_quake}
+def art_cop31(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
+    """COP31 overtime: globe, thermometer and clock on a pale panel."""
+    x0, y0, x1, y1 = box
+    wdt, hgt = x1 - x0, y1 - y0
+    draw.rectangle(box, fill=(196, 222, 226))
+    # globe, left: blue disc with green landmass blobs
+    gx, gy, gr = x0 + 52, y0 + hgt // 2 + 4, 30
+    draw.ellipse([gx - gr, gy - gr, gx + gr, gy + gr], fill=(52, 110, 180))
+    for bx, by, bw, bh in ((-16, -14, 20, 12), (4, -4, 16, 14), (-8, 8, 18, 10)):
+        draw.ellipse([gx + bx, gy + by, gx + bx + bw, gy + by + bh], fill=(86, 150, 84))
+    # thermometer, centre: white tube, red fill near the top
+    tx = x0 + wdt // 2 - 20
+    draw.rectangle([tx - 6, y0 + 10, tx + 6, y1 - 26], fill=WHITE, outline=(120, 140, 150))
+    draw.rectangle([tx - 3, y0 + 22, tx + 3, y1 - 30], fill=RED)
+    draw.ellipse([tx - 11, y1 - 32, tx + 11, y1 - 10], fill=RED, outline=WHITE, width=2)
+    draw.text((tx + 12, y0 + 12), "+1.5°C", font=font(SANS_BOLD, 11), fill=RED_DARK)
+    draw.text((tx + 12, y0 + 26), "LIMIT AT RISK", font=font(SANS_BOLD, 8), fill=INK)
+    # clock, right: the summit clock running past its close
+    cx, cy, cr = x1 - 52, y0 + hgt // 2 + 4, 26
+    draw.ellipse([cx - cr, cy - cr, cx + cr, cy + cr], fill=WHITE, outline=INK, width=2)
+    for ang in range(0, 360, 30):
+        px = cx + int((cr - 4) * math.cos(math.radians(ang)))
+        py = cy + int((cr - 4) * math.sin(math.radians(ang)))
+        draw.ellipse([px - 1, py - 1, px + 1, py + 1], fill=INK)
+    draw.line([(cx, cy), (cx, cy - 16)], fill=INK, width=3)
+    draw.line([(cx, cy), (cx + 12, cy + 7)], fill=RED, width=3)
+    tag(draw, x0 + 8, y1 - 20, "NO DEAL", font(SANS_BOLD, 11), RED, WHITE)
+    draw.rectangle(box, outline=RULE)
 
-LEAD_BANNERS = {"01": "POLAND", "02": "MARKETS CRASH", "03": "MALUKU QUAKE"}
-FEAT_BANNERS = {"04": "COP31: OVERTIME", "05": "PERU: M6.9", "06": "IRAQ: PLANT FIRE",
-                "07": "USA: HACKED", "08": "UK-EU DEALS", "09": "IRAN: MQ-9 CLAIM",
-                "10": "BAYER: $7.25BN", "11": "ZELENSKYY",
+
+def art_kyiv(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
+    """Kyiv at night: skyline, missile trails and burst flashes."""
+    x0, y0, x1, y1 = box
+    wdt, hgt = x1 - x0, y1 - y0
+    draw.rectangle(box, fill=(10, 16, 34))
+    for i in range(36):
+        sx = x0 + (i * 61 + 17) % max(1, wdt - 8) + 4
+        sy = y0 + (i * 23 + 5) % max(1, int(hgt * 0.42)) + 3
+        draw.point((sx, sy), fill=(200, 212, 235))
+    # skyline silhouette along the base, windows lit
+    base = y1
+    for bx, bw, bh in ((6, 34, 30), (46, 26, 42), (78, 38, 24), (122, 30, 48),
+                       (158, 40, 28), (204, 28, 40), (238, 36, 26), (280, 30, 44)):
+        bx0 = x0 + bx
+        if bx0 + bw > x1 - 4:
+            continue
+        draw.rectangle([bx0, base - bh, bx0 + bw, base], fill=(4, 7, 14))
+        for wy in range(base - bh + 5, base - 6, 9):
+            for wx in range(bx0 + 4, bx0 + bw - 5, 10):
+                if (wx * 7 + wy * 3) % 4:
+                    draw.rectangle([wx, wy, wx + 4, wy + 3], fill=(245, 200, 105))
+    # three missile trails arcing down from the top-right, dashed
+    for fx0, fx1, fy1 in ((0.94, 0.70, 0.52), (0.82, 0.55, 0.60), (0.99, 0.84, 0.44)):
+        sx, sy = x0 + fx0 * wdt, y0 + 3
+        ex, ey = x0 + fx1 * wdt, y0 + fy1 * hgt
+        steps = 9
+        for s in range(steps):
+            t0, t1 = s / steps, (s + 0.55) / steps
+            draw.line([(sx + (ex - sx) * t0, sy + (ey - sy) * t0 - 6 * t0 * (1 - t0)),
+                       (sx + (ex - sx) * t1, sy + (ey - sy) * t1 - 6 * t1 * (1 - t1))],
+                      fill=(255, 150, 70), width=2)
+        for ang in range(0, 360, 45):
+            exx = ex + int(9 * math.cos(math.radians(ang)))
+            eyy = ey + int(7 * math.sin(math.radians(ang)))
+            draw.line([(ex, ey), (exx, eyy)], fill=(255, 170, 70), width=2)
+        draw.ellipse([ex - 3, ey - 3, ex + 3, ey + 3], fill=(255, 210, 120))
+    tag(draw, x0 + 8, y1 - 20, "BRIDGES · POWER HIT", font(SANS_BOLD, 9),
+        (8, 10, 14), (235, 235, 235))
+    draw.rectangle(box, outline=RULE)
+
+
+def art_peru_lead(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int]) -> None:
+    """Peru lead: Andean ridge over a seismograph trace, M6.9 badge."""
+    x0, y0, x1, y1 = box
+    wdt, hgt = x1 - x0, y1 - y0
+    draw.rectangle(box, fill=(16, 26, 48))
+    # ridge line of peaks across the upper two-thirds
+    ridge = [(x0, y1 - 34), (x0 + 38, y0 + 22), (x0 + 74, y1 - 40),
+             (x0 + 118, y0 + 12), (x0 + 156, y1 - 38), (x0 + 198, y0 + 26),
+             (x0 + 236, y1 - 42), (x0 + 272, y0 + 18), (x1, y1 - 36),
+             (x1, y1), (x0, y1)]
+    draw.polygon(ridge, fill=(88, 102, 128))
+    for px, py in ((118, 12), (272, 18), (38, 22)):
+        cxp, cyp = x0 + px, y0 + py
+        draw.polygon([(cxp - 11, cyp + 12), (cxp, cyp), (cxp + 11, cyp + 12),
+                      (cxp, cyp + 6)], fill=WHITE)
+    # a crack splitting the nearest slope
+    draw.line([(x0 + 150, y0 + 40), (x0 + 144, y0 + 56), (x0 + 154, y0 + 70),
+               (x0 + 147, y1 - 36)], fill=(245, 200, 90), width=2)
+    # seismograph trace along the base, spiking at the main shock
+    trace = [(x0 + 8, y1 - 14), (x0 + 52, y1 - 14), (x0 + 62, y1 - 24),
+             (x0 + 72, y1 - 5), (x0 + 82, y1 - 28), (x0 + 92, y1 - 4),
+             (x0 + 102, y1 - 22), (x0 + 114, y1 - 14), (x1 - 96, y1 - 14)]
+    draw.line(trace, fill=(255, 120, 120), width=2, joint="curve")
+    badge = (x1 - 84, y1 - 42, x1 - 10, y1 - 18)
+    draw.rectangle(badge, fill=RED)
+    centred_text(draw, (badge[0] + badge[2]) / 2, y1 - 37, "M6.9",
+                 font(SANS_BOLD, 13), WHITE)
+    draw.rectangle(box, outline=RULE)
+
+
+LEAD_ART = {"poland": art_poland, "markets": art_markets, "quake": art_quake,
+            "cop31": art_cop31, "kyiv": art_kyiv, "peru": art_peru_lead}
+
+LEAD_BANNERS = {"01": "COP31: OVERTIME", "02": "KYIV: STRUCK", "03": "PERU: M6.9"}
+FEAT_BANNERS = {"04": "POLAND", "05": "MARKETS CRASH", "06": "MALUKU QUAKE",
+                "07": "IRAQ: PLANT FIRE", "08": "USA: HACKED", "09": "UK-EU DEALS",
+                "10": "IRAN: MQ-9 CLAIM", "11": "BAYER: $7.25BN",
                 "12": "TRUMP: AI TAX", "13": "TBILISI BLAST"}
 
 # --------------------------------------------------------------------------
@@ -483,10 +587,65 @@ def feat_explosion(draw, box) -> None:
     draw.rectangle(box, outline=RULE)
 
 
+def feat_poland(draw, box) -> None:
+    """04 — mini Poland: farmland horizon, one trail, the falling drone."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=(13, 20, 42))
+    draw.rectangle([x0, y1 - 12, x1, y1], fill=(30, 52, 34))
+    for hx, hw, hh in ((x0 + 14, 24, 10), (x1 - 52, 28, 11)):
+        draw.rectangle([hx, y1 - 12 - hh, hx + hw, y1 - 12], fill=(5, 8, 16))
+        draw.polygon([(hx - 2, y1 - 12 - hh), (hx + hw + 2, y1 - 12 - hh),
+                      (hx + hw // 2, y1 - 19 - hh)], fill=(90, 30, 30))
+    sx, sy = x1 - 16, y0 + 4
+    ex, ey = x1 - 62, y0 + 26
+    draw.line([(sx, sy), (ex, ey)], fill=(255, 122, 60), width=3)
+    draw.ellipse([ex - 5, ey - 2, ex + 5, ey + 7], fill=(255, 140, 50))
+    dx_, dy_ = x0 + 52, y0 + 18
+    draw.line([(dx_ - 10, dy_ - 7), (dx_ + 10, dy_ + 7)], fill=WHITE, width=2)
+    draw.line([(dx_ - 10, dy_ + 7), (dx_ + 10, dy_ - 7)], fill=WHITE, width=2)
+    draw.ellipse([dx_ - 4, dy_ - 4, dx_ + 4, dy_ + 4], fill=RED)
+    draw.rectangle(box, outline=RULE)
+
+
+def feat_markets(draw, box) -> None:
+    """05 — mini crash chart: grid and one plunging red line."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=PANEL)
+    for gx in range(x0 + 14, x1, 22):
+        draw.line([(gx, y0 + 3), (gx, y1 - 3)], fill=PANEL_LINE, width=1)
+    for gy in range(y0 + 8, y1 - 4, 12):
+        draw.line([(x0 + 3, gy), (x1 - 3, gy)], fill=PANEL_LINE, width=1)
+    pts = [(x0 + 10, y0 + 10), (x0 + 52, y0 + 14), (x0 + 88, y0 + 12),
+           (x0 + 118, y0 + 28), (x1 - 34, y1 - 10)]
+    draw.line(pts, fill=RED, width=3, joint="curve")
+    for px, py in pts[:-1]:
+        draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=WHITE)
+    draw.text((x1 - 62, y0 + 6), "-5.3%", font=font(SANS_BOLD, 12), fill=(255, 150, 150))
+    draw.rectangle(box, outline=RULE)
+
+
+def feat_quake(draw, box) -> None:
+    """06 — mini Maluku: epicentre rings and the M7.2 tag."""
+    x0, y0, x1, y1 = box
+    draw.rectangle(box, fill=(13, 28, 52))
+    cx, cy = x0 + 62, y0 + 27
+    for radius, colour, width in ((24, (255, 90, 90), 3), (17, (255, 140, 90), 2),
+                                  (10, (255, 190, 110), 2)):
+        draw.ellipse([cx - radius, cy - radius * 0.72, cx + radius, cy + radius * 0.72],
+                     outline=colour, width=width)
+    draw.ellipse([cx - 3, cy - 3, cx + 3, cy + 3], fill=RED, outline=WHITE)
+    draw.polygon([(x1 - 70, y0 + 4), (x1 - 30, y0 + 10), (x1 - 12, y0 + 22),
+                  (x1 - 34, y0 + 26), (x1 - 64, y0 + 16)],
+                 fill=(104, 116, 138), outline=(196, 210, 228))
+    tag(draw, x0 + 6, y1 - 18, "M7.2", font(SANS_BOLD, 9), RED, WHITE)
+    draw.rectangle(box, outline=RULE)
+
+
 FEAT_ART = {"cop": feat_cop, "peru": feat_peru, "fire": feat_fire,
             "hack": feat_hack, "flags": feat_flags, "drone": feat_drone,
             "bayer": feat_bayer, "quote": feat_quote,
-            "datacentre": feat_datacentre, "explosion": feat_explosion}
+            "datacentre": feat_datacentre, "explosion": feat_explosion,
+            "poland": feat_poland, "markets": feat_markets, "quake": feat_quake}
 
 # --------------------------------------------------------------------------
 # Solid-fill world map (dark), geographically honest
@@ -550,10 +709,10 @@ def draw_map(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int],
     for poly in CONTINENTS:
         pts = [proj(lon, lat) for lon, lat in poly]
         draw.polygon(pts, fill=LAND_DARK, outline=(178, 198, 220), width=1)
-    # pins for stories 01-13 and 27-32 at their true positions; a pin
-    # may carry a small dx/dy nudge (a few px, east-west order
-    # preserved) where true
-    # positions would overlap — the Europe cluster, the NE-Asia cluster
+    # pins for the thirteen illustrated stories (01-13) at their true
+    # positions; a pin may carry a small dx/dy nudge (a few px,
+    # east-west order preserved) where true positions would overlap —
+    # the Europe cluster and the US cluster
     pin_font = font(SANS_BOLD, 9)
     for pin in pins:
         px = x0 + int(pin["x"] * wdt) + pin.get("dx", 0)
@@ -563,8 +722,8 @@ def draw_map(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int],
                      outline=WHITE, width=1)
         tw = text_w(draw, label, pin_font)
         draw.text((px - tw / 2, py - 5), label, font=pin_font, fill=WHITE)
-    # No space callout on this edition: all nineteen pinned stories
-    # (01-13, 27-32) are places on the map, so the pins alone carry it.
+    # No space callout on this edition: all thirteen pinned stories
+    # (01-13, the illustrated ones) are places on the map.
 
 
 # --------------------------------------------------------------------------
@@ -597,14 +756,14 @@ def section_top(draw, data: dict) -> int:
     y += 20
     draw.line([(MARGIN, y), (X1, y)], fill=RULE, width=1)
     y += 4
-    # Numbers strip: six big-number cells divided by hairlines; the two
-    # market-shock cells (indexes 1 and 2) print in red.
+    # Numbers strip: six big-number cells divided by hairlines; every
+    # numeral prints in red (the rank-1 pattern for this page family).
     cell_w, big_f, cap_f = INNER / 6, font(SANS_BOLD, 24), font(SANS, 11)
     for i, cell in enumerate(data["numbers"]):
         cx = MARGIN + i * cell_w
         if i:
             draw.line([(cx - 5, y + 2), (cx - 5, y + 40)], fill=RULE, width=1)
-        draw.text((cx, y), cell["big"], font=big_f, fill=RED if i in (1, 2) else INK)
+        draw.text((cx, y), cell["big"], font=big_f, fill=RED)
         draw_lines(draw, wrap(draw, cell["caption"], cap_f, cell_w - 12)[:2],
                    cx, y + 25, cap_f, INK_SOFT, 11)
     y += 48
@@ -660,13 +819,8 @@ def section_leads(draw, data: dict, y: int) -> int:
         banner(draw, art_box[0], art_box[1],
                LEAD_BANNERS[lead["n"]], font(SANS_BOLD, 13))
         src = lead["source"].replace(", ", " · ")
-        if lead["n"] == "01":
-            chip(draw, art_box[0] + 6, art_box[3] - 19 - 14, src)
-        elif lead["n"] == "03":
-            chip(draw, art_box[0] + 96, art_box[3] - 14, src)
-        else:
-            chip(draw, art_box[2] - chip_w(draw, src) - 6,
-                 art_box[3] - 14, src)
+        chip(draw, art_box[2] - chip_w(draw, src) - 6,
+             art_box[3] - 14, src)
         cy = y + LEAD_ART_H + 6
         num_chip(draw, x + 7, cy + 6, 7, lead["n"], font(SANS_BOLD, 9))
         draw.text((x + 18, cy), lead["kicker"], font=kick_f, fill=RED)
@@ -713,7 +867,7 @@ def section_features(draw, data: dict, y: int) -> int:
 
 
 def section_bottom(draw, data: dict, y: int) -> int:
-    """World map (left) and the 19 one-line briefs (right, two columns)."""
+    """World map (left) and the one-line briefs (right, two columns)."""
     map_w = 348
     head_f = font(SANS_BOLD, 14)
     draw.text((MARGIN, y), "WHERE IT HAPPENED", font=head_f, fill=INK)
@@ -733,14 +887,16 @@ def section_bottom(draw, data: dict, y: int) -> int:
         col, row = divmod(idx, per_col)
         x, yy = bx + col * (col_w + 12), y + 33 + row * 13.4
         # One running line per brief: red number, bold place, then the
-        # text shrunk just enough to never spill past its column.
+        # text and its source in parentheses (the top-10 pattern),
+        # shrunk just enough to never spill past its column.
         cursor = x
         for text, fnt, fill in ((f'{brief["n"]}', num_f, RED),
                                 (brief["place"], place_f, INK)):
             draw.text((cursor, yy), text, font=fnt, fill=fill)
             cursor += text_w(draw, text, fnt) + 4
-        bf = fit_font(draw, brief["text"], SANS, 12, x + col_w - cursor, minimum=9)
-        draw.text((cursor, yy), brief["text"], font=bf, fill=INK_SOFT)
+        line = f'{brief["text"]} ({brief["source"]})'
+        bf = fit_font(draw, line, SANS, 12, x + col_w - cursor, minimum=9)
+        draw.text((cursor, yy), line, font=bf, fill=INK_SOFT)
     return y + 205
 
 
@@ -768,9 +924,9 @@ def build() -> Path:
 
     # Cross-checks: the printed counts must agree with the story list.
     total = len(data["leads"]) + len(data["features"]) + len(data["briefs"])
-    assert total == 32, f"story count drifted: {total}"
+    assert total == 35, f"story count drifted: {total}"
     assert sum(r["count"] for r in data["regions"]) == total, "region counts drifted"
-    assert len(data["numbers"]) == 6 and len(data["pins"]) == 19
+    assert len(data["numbers"]) == 6 and len(data["pins"]) == 13
 
     img = Image.new("RGB", (SIZE, SIZE), PAPER)
     draw = ImageDraw.Draw(img)
