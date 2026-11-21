@@ -624,6 +624,23 @@ def section_top(draw, data: dict) -> int:
     return y + 5
 
 
+def _story_text(draw, story, x, cy, col_w, head_f, body_f, leading,
+                max_caption=None):
+    """Headline plus attributed caption for one story module.
+
+    Returns the y just past the caption.  Leads pass no cap and keep a
+    one-pixel breathing gap after the headline; features cap the
+    caption at three lines so a long one can never eat the next row.
+    """
+    cy = draw_lines(draw, wrap(draw, story["headline"], head_f, col_w),
+                    x, cy, head_f, INK, leading)
+    if max_caption is None:
+        cy += 1
+    caption = wrap(draw, f'{story["caption"]} ({story["source"]})', body_f, col_w)
+    return draw_lines(draw, caption[:max_caption] if max_caption else caption,
+                      x, cy, body_f, INK_SOFT, 13)
+
+
 def section_leads(draw, data: dict, y: int) -> int:
     """The three lead stories, each with its full illustration band."""
     gap = 10
@@ -651,13 +668,7 @@ def section_leads(draw, data: dict, y: int) -> int:
         cy = y + LEAD_ART_H + 6
         num_chip(draw, x + 7, cy + 6, 7, lead["n"], font(SANS_BOLD, 9))
         draw.text((x + 18, cy), lead["kicker"], font=kick_f, fill=RED)
-        cy += 15
-        lines = wrap(draw, lead["headline"], head_f, col_w)
-        cy = draw_lines(draw, lines, x, cy, head_f, INK, 27)
-        cy += 1
-        caption = f'{lead["caption"]} ({lead["source"]})'
-        lines = wrap(draw, caption, body_f, col_w)
-        cy = draw_lines(draw, lines, x, cy, body_f, INK_SOFT, 13)
+        cy = _story_text(draw, lead, x, cy + 15, col_w, head_f, body_f, 27)
         bottom = max(bottom, cy)
     y = bottom + 2
     draw.line([(MARGIN, y), (X1, y)], fill=RULE, width=1)
@@ -689,12 +700,8 @@ def section_features(draw, data: dict, y: int) -> int:
             num_chip(draw, x + 6, y + FEAT_ART_H + 3 + 5, 6, feat["n"],
                      font(SANS_BOLD, 8))
             draw.text((x + 15, y + FEAT_ART_H + 3), kick, font=kf, fill=RED)
-            cy = y + FEAT_ART_H + 14
-            lines = wrap(draw, feat["headline"], head_f, col_w)
-            cy = draw_lines(draw, lines, x, cy, head_f, INK, 18)
-            caption = f'{feat["caption"]} ({feat["source"]})'
-            lines = wrap(draw, caption, body_f, col_w)
-            cy = draw_lines(draw, lines[:3], x, cy, body_f, INK_SOFT, 13)
+            cy = _story_text(draw, feat, x, y + FEAT_ART_H + 14, col_w,
+                             head_f, body_f, 18, max_caption=3)
             row_bottom = max(row_bottom, cy)
         y = row_bottom + 4
         if row == 0:
@@ -765,14 +772,12 @@ def build() -> Path:
 
     img = Image.new("RGB", (SIZE, SIZE), PAPER)
     draw = ImageDraw.Draw(img)
-    # faint newsprint frame
-    draw.rectangle([6, 6, SIZE - 7, SIZE - 7], outline=RULE, width=1)
+    draw.rectangle([6, 6, SIZE - 7, SIZE - 7], outline=RULE, width=1)  # frame
 
+    # The page is a stack of sections; each returns the next free y.
     y = section_top(draw, data)
-    y = section_leads(draw, data, y)
-    y = section_features(draw, data, y)
-    y = section_bottom(draw, data, y)
-    y = section_close(draw, data, y)
+    for section in (section_leads, section_features, section_bottom, section_close):
+        y = section(draw, data, y)
     assert y <= SIZE - 8, f"page overflowed: content ends at y={y}"
 
     # Save, quantising only if the flat render ever busts the size budget.
