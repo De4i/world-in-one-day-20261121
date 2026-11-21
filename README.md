@@ -10,18 +10,24 @@ Entry for make.fun's daily news-image bounty
 
 ## What the picture shows
 
-A single 1024×1024 front page for Saturday 21 November 2026:
+A single 1024×1024 front page for Saturday 21 November 2026, second
+edition (v2: broader and denser than the morning's first edition):
 
 - **Three illustrated leads** — Russian missiles and a drone down in
-  south-east Poland; the global tech-stock crash (Nasdaq −5.3%, S&P 500
-  −3.7%, Nikkei −5.1%, Hang Seng −1.9%); and the M7.2 Maluku quake in
-  the Banda Sea (BMKG; no tsunami).
-- **Ten feature modules**, each with its own drawn graphic: COP31 in
-  overtime, Peru's M6.9, the Basra power-plant fire, the FBI/Agriculture
+  south-east Poland, with a locator inset; the global tech-stock crash
+  (Nasdaq −5.3%, S&P 500 −3.7%, Nikkei −5.1%, Hang Seng −1.9%); and the
+  M7.2 Maluku quake in the Banda Sea (BMKG; no tsunami), drawn across a
+  wider archipelago.
+- **Twelve feature modules**, each with its own drawn graphic: COP31
+  deadlocked into overtime and Peru's M6.9 in taller promoted bands,
+  the Kyiv strikes, the Basra power-plant fire, the FBI/Agriculture
   hack, the UK–EU deals, Iran's MQ-9 claim, Bayer's $7.25bn settlement,
-  Zelenskyy at APEC, Trump's AI data-centre tax warning, Tbilisi's blast.
+  Europe's Lebanon peace push, Trump's AI data-centre tax warning,
+  Tbilisi's blast, and Trump's "defund Ukraine" call to Europe.
 - **A world map** with a numbered pin for every lead and feature, and
-  **13 briefs** (stories 14–26) beside it: 26 stories in total.
+  **24 briefs** (stories 16–39) beside it: 39 stories in total, across
+  seven regions (Europe 8, Americas 9, Asia-Pacific 9, Mideast 4,
+  Africa 5, Oceania 1, World/Space 3).
 - Every claim carries its source on the page, and a thin DATE CHECK
   strip names the big stories first reported on 19/20 November (the
   Shenzhen summit, Anthropic's IPO, the ICJ Myanmar verdict) that were
