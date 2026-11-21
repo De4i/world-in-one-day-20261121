@@ -1,1 +1,400 @@
-{"briefs":[{"n":14,"place":"INDIA","source":"Wire reports","text":"Tainted alcohol: 11 dead, 180+ in hospital"},{"n":15,"place":"NIGERIA","source":"Wire reports","text":"Funeral boat capsizes: at least 4 dead, incl. 2 children"},{"n":16,"place":"AFGHANISTAN","source":"Wire reports","text":"Old mortar shell kills 4 students"},{"n":17,"place":"SOUTH KOREA","source":"Wire reports","text":"Ex-PM Han's 15-yr sentence overturned; retrial ordered"},{"n":18,"place":"EL SALVADOR","source":"Wire reports","text":"Bukele to register for third term; vote 28 Feb 2027"},{"n":19,"place":"USA","source":"Wire reports","text":"Court lets TPS end for ~600,000 Venezuelans"},{"n":20,"place":"INDONESIA","source":"Nusantara Atlas","text":"Forest fires burned 7.1m acres in 2026"},{"n":21,"place":"LOS ANGELES","source":"Wire reports","text":"Man found guilty of starting Palisades fire"},{"n":22,"place":"UKRAINE","source":"Wire reports","text":"Kryvyi Rih strikes: 2 dead, 42 hurt, incl. 4 children"},{"n":23,"place":"ISRAEL","source":"Wire reports","text":"Plan advances for West Bank city of 200,000"},{"n":24,"place":"NASA","source":"NASA","text":"Perseverance + Mars Odyssey science paused"},{"n":25,"place":"CRYPTO","source":"Horizon","text":"Liquidations $2bn+; Bitcoin $58,076, -5.6%"},{"n":26,"place":"USA / INDIA","source":"Wire reports","text":"Indian national gets 19 years in US, Pannun plot"},{"n":27,"place":"UKRAINE","source":"AP","text":"Russian strikes on Kyiv kill 3; bridges, power hit"},{"n":28,"place":"HAITI","source":"Wire reports","text":"Salvadoran military: 3 die after explosion"},{"n":29,"place":"SENEGAL","source":"BBC","text":"Migrant boat sinks: dozens missing off coast"},{"n":30,"place":"KENYA","source":"Wire reports","text":"Floods leave six dead across Kenya"},{"n":31,"place":"EGYPT","source":"Radarr Africa","text":"IMF staff deal unlocks about $2.3bn"},{"n":32,"place":"SOMALIA","source":"Wire reports","text":"Somalia expels UAE ambassador in row"}],"date_check":{"body":"First reported Thu 19 / Fri 20 Nov, so NOT shown as Saturday's news: the Trump-Xi-Putin Shenzhen summit itself · Anthropic's IPO pricing and debut · the ICJ Myanmar Rohingya genocide verdict","title":"DATE CHECK"},"edition":{"brand":"THE WORLD IN ONE DAY","footer_claim":"Every story here happened, or was first reported, on Saturday 21 November 2026. Claims are attributed, not stated as fact.","footer_sources":"Sources: AP, Horizon, BMKG, USGS, GFZ, Reuters, UN News, EU Council.  Original drawings.","masthead":"Saturday 21 November 2026","strapline":"Russian missiles fall in Poland  ·  Global tech crash deepens  ·  M7.2 quake in the Banda Sea  ·  COP31 in overtime","top_right":"SATURDAY'S NEWS · ONE PAGE · 32 STORIES"},"features":[{"caption":"Summit runs past its close, split over fossil fuels.","headline":"COP31 in overtime, deadlocked on fossil fuels","icon":"cop","kicker":"ANTALYA — CLIMATE","n":"04","source":"UN News, Reuters"},{"caption":"Strong shaking in the Andes; buildings and roads hit.","headline":"M6.9 quake shakes the Andes in Peru","icon":"peru","kicker":"PERU — QUAKE","n":"05","source":"USGS, reports"},{"caption":"Fire at the Hartha plant in Basra; dozens hurt.","headline":"Power plant fire in Iraq: 4 dead, 35 injured","icon":"fire","kicker":"BASRA, IRAQ — FIRE","n":"06","source":"Wire reports"},{"caption":"Agencies hacked as tech outages spread.","headline":"FBI and Agriculture Dept hacked in US","icon":"hack","kicker":"USA — CYBER","n":"07","source":"Wire reports"},{"caption":"Three deals signed in Brussels, biggest step since Brexit.","headline":"UK and EU sign three agreements","icon":"flags","kicker":"BRUSSELS — EUROPE","n":"08","source":"EU Council"},{"caption":"Tehran says it downed a US MQ-9 over the strait.","headline":"Iran says it downed a US drone at Hormuz","icon":"drone","kicker":"HORMUZ — IRAN CLAIM","n":"09","source":"Iran claim, reports"},{"caption":"US judge validates the Roundup settlement deal.","headline":"Bayer's $7.25bn Roundup deal validated","icon":"bayer","kicker":"USA — COURTS","n":"10","source":"Court reports"},{"caption":"After Trump calls Putin 'my friend' at APEC.","headline":"Zelenskyy calls Putin 'a killer'","icon":"quote","kicker":"APEC — UKRAINE","n":"11","source":"APEC reports"},{"caption":"Warning aimed at firms building AI centres abroad.","headline":"Trump warns AI builders abroad face tax","icon":"datacentre","kicker":"USA — TECH","n":"12","source":"Wire reports"},{"caption":"Apartment blast in Tbilisi; a child among the dead.","headline":"Gas explosion kills 6 in Georgia","icon":"explosion","kicker":"TBILISI, GEORGIA — BLAST","n":"13","source":"Wire reports"}],"leads":[{"art":"poland","caption":"Missiles and a drone fell in the south-east; PM Tusk calls it a deliberate provocation; NATO allies and world leaders back Poland.","headline":"Russian missiles and a drone fall in Poland","kicker":"SE POLAND — NATO","n":"01","source":"AP, Horizon"},{"art":"markets","caption":"Nasdaq -5.3% erases its 2026 gains; S&P 500 -3.7% into correction; Nikkei -5.1% and Hang Seng -1.9% at the close.","headline":"Global tech-stock crash deepens worldwide","kicker":"GLOBAL — MARKETS","n":"02","source":"Horizon"},{"art":"quake","caption":"M7.2 (BMKG; USGS/GFZ 6.8), 43 km NW of Maluku Barat Daya, 125 km deep, at 16:42 WIB. No tsunami, says BMKG.","headline":"M7.2 quake strikes Maluku, Banda Sea","kicker":"MALUKU, INDONESIA — QUAKE","n":"03","source":"BMKG"}],"numbers":[{"big":"-5.3%","caption":"Nasdaq fall; 2026 gains erased"},{"big":"M7.2","caption":"Maluku quake, Banda Sea, 125 km deep"},{"big":"-3.7%","caption":"S&P 500 falls into correction"},{"big":"$7.25bn","caption":"Bayer Roundup settlement validated"},{"big":"$58,076","caption":"Bitcoin close, -5.6% (Horizon)"},{"big":"600,000","caption":"Venezuelans facing end of TPS"}],"pins":[{"n":1,"x":0.536111,"y":0.214286},{"dx":-4,"dy":-4,"n":2,"x":0.266667,"y":0.280714},{"n":3,"x":0.827778,"y":0.592857},{"dx":2,"dy":2,"n":4,"x":0.5575,"y":0.307857},{"n":5,"x":0.263889,"y":0.635714},{"n":6,"x":0.605,"y":0.353571},{"dx":5,"dy":4,"n":7,"x":0.258333,"y":0.293571},{"dx":-3,"dy":-3,"n":8,"x":0.484306,"y":0.208214},{"n":9,"x":0.628472,"y":0.382143},{"dx":6,"dy":3,"n":10,"x":0.491667,"y":0.207143},{"dx":3,"dy":-4,"n":11,"x":0.556944,"y":0.211429},{"dx":-5,"dy":5,"n":12,"x":0.258333,"y":0.293571},{"n":13,"x":0.596389,"y":0.273571},{"dx":16,"dy":-6,"n":27,"x":0.556944,"y":0.211429},{"n":28,"x":0.271389,"y":0.435714},{"n":29,"x":0.423611,"y":0.466429},{"dx":-10,"n":30,"x":0.574444,"y":0.580714},{"dx":8,"dy":8,"n":31,"x":0.555556,"y":0.378571},{"dx":4,"n":32,"x":0.598056,"y":0.557143}],"regions":[{"color":"#2f5d8a","count":7,"name":"EUROPE"},{"color":"#c1272d","count":8,"name":"AMERICAS"},{"color":"#d97706","count":7,"name":"ASIA-PACIFIC"},{"color":"#6d8f3f","count":3,"name":"MIDEAST"},{"color":"#7c4d9e","count":5,"name":"AFRICA"},{"color":"#334155","count":2,"name":"WORLD / SPACE"}]}
+{
+ "edition": {
+  "brand": "THE WORLD IN ONE DAY",
+  "footer_claim": "Every story here happened, or was first reported, on Saturday 21 November 2026. Claims are attributed, not stated as fact.",
+  "footer_sources": "Sources: AP, Horizon, BMKG, USGS, GFZ, Reuters, UN News, EU Council, BBC, UK Telegraph.  Original drawings.",
+  "masthead": "Saturday 21 November 2026",
+  "strapline": "COP31 runs into overtime  ·  Kyiv struck again  ·  M6.9 quake shakes Peru",
+  "top_right": "35 STORIES · 7 REGIONS · EVERY ONE DATED SATURDAY 21 NOVEMBER 2026"
+ },
+ "numbers": [
+  {
+   "big": "M6.9",
+   "caption": "Magnitude of the quake in Peru's Andes"
+  },
+  {
+   "big": "3",
+   "caption": "Killed in Russian strikes on Kyiv"
+  },
+  {
+   "big": "-5.3%",
+   "caption": "Nasdaq fall; 2026 gains erased"
+  },
+  {
+   "big": "M7.2",
+   "caption": "Maluku quake, Banda Sea, 125 km deep"
+  },
+  {
+   "big": "$7.25bn",
+   "caption": "Bayer Roundup settlement validated"
+  },
+  {
+   "big": "600,000",
+   "caption": "Venezuelans facing end of TPS"
+  }
+ ],
+ "regions": [
+  {
+   "color": "#2f5d8a",
+   "count": 8,
+   "name": "EUROPE"
+  },
+  {
+   "color": "#c1272d",
+   "count": 8,
+   "name": "AMERICAS"
+  },
+  {
+   "color": "#d97706",
+   "count": 6,
+   "name": "ASIA-PACIFIC"
+  },
+  {
+   "color": "#6d8f3f",
+   "count": 4,
+   "name": "MIDEAST"
+  },
+  {
+   "color": "#7c4d9e",
+   "count": 5,
+   "name": "AFRICA"
+  },
+  {
+   "color": "#0e7c86",
+   "count": 1,
+   "name": "OCEANIA"
+  },
+  {
+   "color": "#334155",
+   "count": 3,
+   "name": "WORLD / SPACE"
+  }
+ ],
+ "leads": [
+  {
+   "art": "cop31",
+   "caption": "Summit runs past its Friday close, split over fossil fuels; a third draft text is promised for Saturday.",
+   "headline": "COP31 runs into Saturday with no deal",
+   "kicker": "ANTALYA, TÜRKIYE — CLIMATE",
+   "n": "01",
+   "source": "UN News, Reuters"
+  },
+  {
+   "art": "kyiv",
+   "caption": "Overnight strikes hit bridges and power in the capital; Kryvyi Rih counts two more dead and 42 hurt.",
+   "headline": "Russian strikes on Kyiv kill 3",
+   "kicker": "KYIV, UKRAINE — WAR",
+   "n": "02",
+   "source": "AP"
+  },
+  {
+   "art": "peru",
+   "caption": "Strong shaking in the Andes; buildings and roads hit, and the tremor was felt toward the coast.",
+   "headline": "M6.9 quake shakes the Andes in Peru",
+   "kicker": "JUNÍN, PERU — EARTHQUAKE",
+   "n": "03",
+   "source": "USGS, reports"
+  }
+ ],
+ "features": [
+  {
+   "caption": "Missiles and a drone fell in the south-east; PM Tusk calls it a deliberate provocation.",
+   "headline": "Russian missiles and a drone fall in Poland",
+   "icon": "poland",
+   "kicker": "SE POLAND — NATO",
+   "n": "04",
+   "source": "AP, Horizon"
+  },
+  {
+   "caption": "Nasdaq -5.3% erases its 2026 gains; S&P 500 -3.7% into correction.",
+   "headline": "Global tech-stock crash deepens worldwide",
+   "icon": "markets",
+   "kicker": "GLOBAL — MARKETS",
+   "n": "05",
+   "source": "Horizon"
+  },
+  {
+   "caption": "M7.2 (BMKG; USGS/GFZ 6.8), 125 km deep, at 16:42 WIB. No tsunami, says BMKG.",
+   "headline": "M7.2 quake strikes Maluku, Banda Sea",
+   "icon": "quake",
+   "kicker": "MALUKU, INDONESIA — QUAKE",
+   "n": "06",
+   "source": "BMKG"
+  },
+  {
+   "caption": "Fire at the Hartha plant in Basra; dozens hurt.",
+   "headline": "Power plant fire in Iraq: 4 dead, 35 injured",
+   "icon": "fire",
+   "kicker": "BASRA, IRAQ — FIRE",
+   "n": "07",
+   "source": "Wire reports"
+  },
+  {
+   "caption": "Agencies hacked as tech outages spread.",
+   "headline": "FBI and Agriculture Dept hacked in US",
+   "icon": "hack",
+   "kicker": "USA — CYBER",
+   "n": "08",
+   "source": "Wire reports"
+  },
+  {
+   "caption": "Three deals signed in Brussels, biggest step since Brexit.",
+   "headline": "UK and EU sign three agreements",
+   "icon": "flags",
+   "kicker": "BRUSSELS — EUROPE",
+   "n": "09",
+   "source": "EU Council"
+  },
+  {
+   "caption": "Tehran says it downed a US MQ-9 over the strait.",
+   "headline": "Iran says it downed a US drone at Hormuz",
+   "icon": "drone",
+   "kicker": "HORMUZ — IRAN CLAIM",
+   "n": "10",
+   "source": "Iran claim, reports"
+  },
+  {
+   "caption": "US judge validates the Roundup settlement deal.",
+   "headline": "Bayer's $7.25bn Roundup deal validated",
+   "icon": "bayer",
+   "kicker": "USA — COURTS",
+   "n": "11",
+   "source": "Court reports"
+  },
+  {
+   "caption": "Warning aimed at firms building AI centres abroad.",
+   "headline": "Trump warns AI builders abroad face tax",
+   "icon": "datacentre",
+   "kicker": "USA — TECH",
+   "n": "12",
+   "source": "Wire reports"
+  },
+  {
+   "caption": "Apartment blast in Tbilisi; a child among the dead.",
+   "headline": "Gas explosion kills 6 in Georgia",
+   "icon": "explosion",
+   "kicker": "TBILISI, GEORGIA — BLAST",
+   "n": "13",
+   "source": "Wire reports"
+  }
+ ],
+ "briefs": [
+  {
+   "n": 14,
+   "place": "INDIA",
+   "source": "Wire reports",
+   "text": "Tainted alcohol: 11 dead, 180+ in hospital"
+  },
+  {
+   "n": 15,
+   "place": "NIGERIA",
+   "source": "Wire reports",
+   "text": "Funeral boat capsizes: at least 4 dead"
+  },
+  {
+   "n": 16,
+   "place": "AFGHANISTAN",
+   "source": "Wire reports",
+   "text": "Old mortar shell kills 4 students"
+  },
+  {
+   "n": 17,
+   "place": "SOUTH KOREA",
+   "source": "Wire reports",
+   "text": "Ex-PM Han sentence overturned"
+  },
+  {
+   "n": 18,
+   "place": "EL SALVADOR",
+   "source": "Wire reports",
+   "text": "Bukele: third-term bid, vote 2027"
+  },
+  {
+   "n": 19,
+   "place": "USA",
+   "source": "Wire reports",
+   "text": "Court lets TPS end for ~600,000 Venezuelans"
+  },
+  {
+   "n": 20,
+   "place": "INDONESIA",
+   "source": "Nusantara Atlas",
+   "text": "Forest fires burn 7.1m acres in 2026"
+  },
+  {
+   "n": 21,
+   "place": "LOS ANGELES",
+   "source": "Wire reports",
+   "text": "Man guilty of starting Palisades fire"
+  },
+  {
+   "n": 22,
+   "place": "UKRAINE",
+   "source": "Wire reports",
+   "text": "Kryvyi Rih strikes: 2 dead, 42 hurt"
+  },
+  {
+   "n": 23,
+   "place": "ISRAEL",
+   "source": "Wire reports",
+   "text": "Plan advances for West Bank city of 200,000"
+  },
+  {
+   "n": 24,
+   "place": "NASA",
+   "source": "NASA",
+   "text": "Perseverance + Mars Odyssey science paused"
+  },
+  {
+   "n": 25,
+   "place": "CRYPTO",
+   "source": "Horizon",
+   "text": "Liquidations $2bn+; Bitcoin $58,076, -5.6%"
+  },
+  {
+   "n": 26,
+   "place": "UKRAINE",
+   "source": "APEC reports",
+   "text": "Zelenskyy calls Putin 'a killer' at APEC"
+  },
+  {
+   "n": 27,
+   "place": "HAITI",
+   "source": "Wire reports",
+   "text": "Salvadoran military: 3 die after explosion"
+  },
+  {
+   "n": 28,
+   "place": "SENEGAL",
+   "source": "BBC",
+   "text": "Migrant boat sinks: dozens missing off coast"
+  },
+  {
+   "n": 29,
+   "place": "KENYA",
+   "source": "Wire reports",
+   "text": "Floods leave six dead across Kenya"
+  },
+  {
+   "n": 30,
+   "place": "EGYPT",
+   "source": "Radarr Africa",
+   "text": "IMF staff deal unlocks about $2.3bn"
+  },
+  {
+   "n": 31,
+   "place": "SOMALIA",
+   "source": "Wire reports",
+   "text": "Somalia expels UAE ambassador in row"
+  },
+  {
+   "n": 32,
+   "place": "UKRAINE",
+   "source": "UK Telegraph",
+   "text": "Trump tells Europe: defund Ukraine"
+  },
+  {
+   "n": 33,
+   "place": "LEBANON",
+   "source": "Wire reports",
+   "text": "Europe seeks peace role, UN force swap"
+  },
+  {
+   "n": 34,
+   "place": "CHINA",
+   "source": "China Biz Buzz",
+   "text": "Foreign investment in tech rises 31%"
+  },
+  {
+   "n": 35,
+   "place": "TIMOR-LESTE",
+   "source": "Wire reports",
+   "text": "Quake felt here, and in N. Australia"
+  }
+ ],
+ "pins": [
+  {
+   "n": 1,
+   "x": 0.5575,
+   "y": 0.307857
+  },
+  {
+   "dx": 10,
+   "dy": -4,
+   "n": 2,
+   "x": 0.556944,
+   "y": 0.211429
+  },
+  {
+   "n": 3,
+   "x": 0.263889,
+   "y": 0.635714
+  },
+  {
+   "dx": -10,
+   "dy": 3,
+   "n": 4,
+   "x": 0.536111,
+   "y": 0.214286
+  },
+  {
+   "dx": -14,
+   "dy": -11,
+   "n": 5,
+   "x": 0.266667,
+   "y": 0.280714
+  },
+  {
+   "n": 6,
+   "x": 0.827778,
+   "y": 0.592857
+  },
+  {
+   "n": 7,
+   "x": 0.605,
+   "y": 0.353571
+  },
+  {
+   "dx": -4,
+   "dy": 5,
+   "n": 8,
+   "x": 0.258333,
+   "y": 0.293571
+  },
+  {
+   "dx": -3,
+   "dy": -3,
+   "n": 9,
+   "x": 0.484306,
+   "y": 0.208214
+  },
+  {
+   "n": 10,
+   "x": 0.628472,
+   "y": 0.382143
+  },
+  {
+   "dx": -8,
+   "dy": 0,
+   "n": 11,
+   "x": 0.2167,
+   "y": 0.3
+  },
+  {
+   "dx": 11,
+   "dy": 11,
+   "n": 12,
+   "x": 0.258333,
+   "y": 0.293571
+  },
+  {
+   "n": 13,
+   "x": 0.596389,
+   "y": 0.273571
+  }
+ ],
+ "date_check": {
+  "body": "First reported Thu 19 / Fri 20 Nov, so NOT shown as Saturday's news: the Trump-Xi-Putin Shenzhen summit itself · Anthropic's IPO pricing and debut · the ICJ Myanmar Rohingya genocide verdict",
+  "title": "DATE CHECK"
+ }
+}
