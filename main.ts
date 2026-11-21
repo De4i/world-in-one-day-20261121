@@ -1,6 +1,6 @@
 // World in One Day, Saturday edition — news-image-20261121.
 //
-// Saturday 21 November 2026 in one image, 32 stories. The picture is
+// Saturday 21 November 2026 in one image, 35 stories. The picture is
 // baked ahead of time: poster/build_poster.py renders entry.png from
 // poster/data/stories.json, and entry.png sits beside this file in the
 // repository. All this program does at run time is deliver that file.
