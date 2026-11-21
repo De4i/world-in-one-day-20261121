@@ -7,31 +7,17 @@ world news of Saturday 21 November 2026, from the structured story data
 in poster/data/stories.json.  Saturday edition of the same series as
 Friday's world-in-one-day-20261120 poster, keeping its proven system.
 
-Design notes
-------------
-* The page the official judge rated 0.987731 on 20261120 — cream
-  newsprint, dark-navy ink, red accents, same layout — with full
-  dark-navy art panels, a red in-art headline banner and a black
-  source chip on every panel.  The three leads are newly drawn for
-  Saturday: a night farmland panel for the missiles and drone that
-  fell in SE Poland ("MISSILES + DRONE DOWN"), a plunging-lines crash
-  chart tagged with all four index falls, and a Banda Sea quake panel
-  with epicentre rings, a seismograph trace, an "M7.2 · 125 KM" badge
-  and a "NO TSUNAMI" tag; the ten feature bands carry their own drawn
-  graphics and numbers (the COP31 overtime clock, the M6.9 Andes
-  crack, "4 DEAD · 35 HURT", the cracked shield, the $7.25bn tag).
-* Everything is drawn with Pillow primitives: no photographs, no external
-  assets, so the render is fully deterministic — two runs produce a
-  byte-identical PNG.
-* The world map is solid-fill: hand-coded continent polygons in muted
-  blue-grey on a deep-navy ocean, with numbered pins for stories 01-13
-  stamped on top.
-* If the plain RGB PNG ever exceeds the 1 MiB competition limit, the
-  image is palette-quantised (224 colours, median-cut, Floyd-Steinberg
-  dithering) inside this script, so the output is always in budget.
+Design: cream newsprint, dark-navy ink, red accents; full dark-navy
+art panels with a red headline banner and a black source chip on every
+panel.  Saturday's leads are drawn for the day: SE Poland farmland at
+night with missile trails and a falling drone, a plunging-lines crash
+chart tagged with all four index falls, and a Banda Sea quake panel
+with epicentre rings, a seismograph trace and a NO TSUNAMI tag.  All
+art is Pillow primitives (no photos, no assets), so the render is
+deterministic; the map is solid-fill coastlines with pins 01-13.  If
+the RGB PNG ever busts 1 MiB the script palette-quantises it in place.
 
-Run:  python3 poster/build_poster.py
-Out:  entry.png next to main.ts, at the repository root.
+Run:  python3 poster/build_poster.py   Out: entry.png at the repo root.
 """
 
 from __future__ import annotations
@@ -108,26 +94,21 @@ def fit_font(draw, text: str, path: Path, start: int, max_width: float,
 
 def wrap(draw, text: str, fnt, max_width: float) -> list[str]:
     """Greedy word wrap measured with the real font metrics."""
-    lines: list[str] = []
-    current = ""
+    lines, current = [], ""
     for word in text.split():
-        trial = word if not current else current + " " + word
+        trial = f"{current} {word}".strip()
         if text_w(draw, trial, fnt) <= max_width or not current:
             current = trial
         else:
-            lines.append(current)
-            current = word
-    if current:
-        lines.append(current)
-    return lines
+            lines.append(current); current = word
+    return lines + ([current] if current else [])
 
 
 def draw_lines(draw, lines: list[str], x: int, y: int, fnt,
                fill, leading: int) -> int:
     """Draw pre-wrapped lines; returns the y just past the last line."""
     for line in lines:
-        draw.text((x, y), line, font=fnt, fill=fill)
-        y += leading
+        draw.text((x, y), line, font=fnt, fill=fill); y += leading
     return y
 
 
@@ -138,27 +119,23 @@ def centred_text(draw, cx: float, y: float, text: str, fnt, fill) -> None:
               text, font=fnt, fill=fill)
 
 
-def tag(draw, x: int, y: int, text: str, fnt, bg, fg) -> int:
-    """Filled in-art data tag with its top-left at (x, y); returns width."""
-    tw = text_w(draw, text, fnt)
-    w = int(tw) + 12
-    h = fnt.size + 7
+def _plate(draw, x, y, text, fnt, bg, fg, pad):
+    """One filled label plate: bg box with text ink centred in it."""
+    w, h = int(text_w(draw, text, fnt)) + 2 * pad, fnt.size + 7
     draw.rectangle([x, y, x + w, y + h], fill=bg)
     bbox = draw.textbbox((0, 0), text, font=fnt)
-    draw.text((x + 6 - bbox[0], y + (h - (bbox[3] - bbox[1])) / 2 - bbox[1]),
-              text, font=fnt, fill=fg)
+    draw.text((x + pad - bbox[0], y + (h - (bbox[3] - bbox[1])) / 2 - bbox[1]), text, font=fnt, fill=fg)
     return w
+
+
+def tag(draw, x: int, y: int, text: str, fnt, bg, fg) -> int:
+    """Filled in-art data tag with its top-left at (x, y); returns width."""
+    return _plate(draw, x, y, text, fnt, bg, fg, 6)
 
 
 def banner(draw, x: int, y: int, text: str, fnt) -> int:
     """Red in-art headline banner, top-left of a panel (rank-1 pattern)."""
-    w = int(text_w(draw, text, fnt)) + 14
-    h = fnt.size + 6
-    draw.rectangle([x, y, x + w, y + h], fill=RED)
-    bbox = draw.textbbox((0, 0), text, font=fnt)
-    draw.text((x + 7 - bbox[0], y + (h - (bbox[3] - bbox[1])) / 2 - bbox[1]),
-              text, font=fnt, fill=WHITE)
-    return w
+    return _plate(draw, x, y, text, fnt, RED, WHITE, 7)
 
 
 def chip(draw, x: int, y: int, text: str) -> int:
@@ -177,11 +154,7 @@ def chip_w(draw, text: str) -> int:
 def num_chip(draw, cx: float, cy: float, r: int, n: str, fnt) -> None:
     """Blue circle story-number chip (rank-1 pattern)."""
     draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(27, 58, 128))
-    label = str(int(n))
-    tw = text_w(draw, label, fnt)
-    bbox = draw.textbbox((0, 0), label, font=fnt)
-    draw.text((cx - tw / 2 - bbox[0], cy - (bbox[3] - bbox[1]) / 2 - bbox[1]),
-              label, font=fnt, fill=WHITE)
+    centred_text(draw, cx, cy - fnt.size / 2, str(int(n)), fnt, WHITE)
 
 
 # --------------------------------------------------------------------------
