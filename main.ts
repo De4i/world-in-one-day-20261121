@@ -1,9 +1,14 @@
-// World in One Day, Saturday edition — news-image-20261121.
+// World in One Day, Saturday edition, v5 — news-image-20261121.
 //
 // Saturday 21 November 2026 in one image, 35 stories. The picture is
 // baked ahead of time: poster/build_poster.py renders entry.png from
 // poster/data/stories.json, and entry.png sits beside this file in the
 // repository. All this program does at run time is deliver that file.
+// The v5 edition leads with COP31 in overtime, the Saudi interception
+// of three Houthi missiles over Riyadh and the M6.7 Peru quake, and
+// moves Friday 20 November's biggest stories (Poland, Wall Street,
+// the UK-EU deals, the Kyiv bridges barrage) into its DATE CHECK
+// strip, where they are named as exclusions, not as Saturday's news.
 //
 // Delivery address: the folder named by MAKEFUN_OUTPUT_DIR, falling
 // back to /output when the variable is unset. The folder is created
